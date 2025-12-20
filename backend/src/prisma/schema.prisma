@@ -1,0 +1,116 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum PaymentType {
+  UPI
+  CREDIT_CARD
+  DEBIT_CARD
+  NET_BANKING
+}
+
+enum UserType {
+  ADMIN
+  CUSTOMER
+  SUPPLIER
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  name      String
+  email     String     
+  phone     Int?
+  password  String
+  role      UserType
+  addresses Addresses[]
+  order     Order[]
+  payment   Payment[]
+  cart      Cart[]
+  product   Product[]
+  createdAt DateTime    @default(now())
+  updateAt  DateTime    @updatedAt
+
+  @@unique([email])
+}
+
+model Addresses {
+  id        Int      @id @default(autoincrement())
+  address   String?
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id],onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Product {
+  id          Int             @id @default(autoincrement())
+  name        String
+  price       Float
+  offer       Float
+  description String?
+  categoryId  Int
+  category    Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  supplierId  Int
+  supplier    User            @relation(fields: [supplierId], onDelete: Cascade, references: [id])
+  carts       Cart[]
+  orders      Order[]
+  images      ProductImages[]
+  createdAt   DateTime        @default(now())
+  updateAt    DateTime        @updatedAt
+}
+
+model ProductImages {
+  id        Int     @id @default(autoincrement())
+  url       String
+  productId Int
+  product   Product @relation(fields: [productId], references: [id],onDelete: Cascade)
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  orderDate DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  payment   Payment?
+  productId Int
+  products  Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Payment {
+  id        Int         @id @default(autoincrement())
+  type      PaymentType
+  amount    Float
+  orderId   Int         @unique
+  order     Order       @relation(fields: [orderId], references: [id])
+  userId    Int
+  user      User        @relation(fields: [userId], references: [id])
+  createdAt DateTime    @default(now())
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id],onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  products  Product  @relation(fields: [productId], references: [id],onDelete: Cascade)
+  productId Int
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  picture     String?
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updateAt    DateTime  @updatedAt
+}
