@@ -2,9 +2,9 @@ import type { Request, Response } from "express";
 import { prisma } from "../../prisma/index.js";
 import asyncHandler from "express-async-handler";
 import { emailValidator, phoneValidator } from "../../config/regex.js";
+import { hashPass } from "../../config/bcrypt.js"
 
-
-const loginController = asyncHandler(async (req: Request, res: Response) => {
+const registerConroller = asyncHandler(async (req: Request, res: Response) => {
     const { name, email, password, phone } = req.body
     if (!name || !email || !password || !phone) {
         res.status(400).json({ message: "Please fill all the fields" })
@@ -12,7 +12,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
     }
     const user = await prisma.user.findFirst({
         where: {
-            email
+            email: email
         }
     })
     if (user) {
@@ -31,9 +31,8 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
         data: {
             name,
             email,
-            password,
+            password: hashPass(password),
             phone,
-            role: "ADMIN"
         }
     })
     if (!newUser) {
@@ -43,4 +42,4 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
     res.status(200).json({ message: "User created successfully", data: newUser })
 })
 
-export default loginController;
+export default registerConroller;

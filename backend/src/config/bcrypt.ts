@@ -7,4 +7,4 @@ const comparePass = (pas: any, hash: any) => {
     return bcrypt.compareSync(pas, hash)
 }
 
-module.exports = { hashPass, comparePass }
+export { hashPass, comparePass }

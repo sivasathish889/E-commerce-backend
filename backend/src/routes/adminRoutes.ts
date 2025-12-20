@@ -1,8 +1,8 @@
 import { Router } from "express";
-import loginController from "../middlewere/admin/login.controller.js";
+import registerController from "../controller/admin/register.controller.js";
 const routes = Router()
 
-routes.post("/login",loginController)
+routes.post("/register",registerController)
 
 
 
