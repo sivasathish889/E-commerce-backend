@@ -1,37 +1,33 @@
 import multer from "multer"
-import { v4 } from "uuid"
+import path from "path"
+import fs from "fs"
+import { v4 as uuidV4 } from "uuid"
 
 
-const postStorage = multer.diskStorage({
-        destination : (req,file,cb)=>{
-            cb(null, "./public/media/post")
+const createDynamicStorage = (folderName: string) => {
+    return multer.diskStorage({
+        destination: (req, file, cb) => {
+            const dynamicFolder = req.body.name || folderName
+            const uploadPath = path.join(process.cwd(), "public", dynamicFolder)
+            if (!fs.existsSync(uploadPath)) {
+                fs.mkdirSync(uploadPath, { recursive: true })
+            }
+            cb(null, uploadPath)
         },
-        filename : (req,file,cb)=>{
-            let uuid  = v4()
+        filename: (req, file, cb) => {
+            let uuid = uuidV4()
             let filname = file.originalname.split(".").pop()
-            cb(null, uuid+"."+filname)
-        },
-        
+            cb(null, uuid + "." + filname)
+        }
     })
+}
 
-const profileStrorage = multer.diskStorage({
-        destination : (req,file,cb)=>{
-            cb(null, "./public/media/profile")
-        },
-        filename : (req,file,cb)=>{
-            let uuid  = v4()
-            let filname = file.originalname.split(".").pop()
-            cb(null, uuid+"."+filname)
-        },
-        
-    })
+const ProductUpload = multer({
+    storage: createDynamicStorage("products")
+}).array("productImage", 5)
 
-const postFileUpload = multer({
-    storage:postStorage,    
-}).single("image")
+const CategoryUpload = multer({
+    storage: createDynamicStorage("categories")
+}).single("categoryImage")
 
-const profileUpload = multer({
-    storage: profileStrorage
-}).single("profilePic")
-
-module.exports = {postFileUpload, profileUpload}
+export { ProductUpload, CategoryUpload } 
