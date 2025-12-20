@@ -24,7 +24,7 @@ const createDynamicStorage = (folderName: string) => {
 
 const ProductUpload = multer({
     storage: createDynamicStorage("products")
-}).array("productImage", 5)
+}).array("productImage", 7)
 
 const CategoryUpload = multer({
     storage: createDynamicStorage("categories")
