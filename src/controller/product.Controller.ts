@@ -6,6 +6,7 @@ import type { ProductType } from "../types/types.js";
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     const { name, price, offer, description, categoryId, supplierId, } = req.body as ProductType
     const images = req.files as Express.Multer.File[]
+
     if (!name || !price || !offer || !description || !categoryId || !supplierId) {
         res.status(400).json({ message: "Please fill all the fields", success: false })
         return
@@ -21,6 +22,24 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     })
     if (isNameExist) {
         res.status(400).json({ message: "Product name already exist", success: false })
+        return
+    }
+    const isCategoryExist = await prisma.category.findUnique({
+        where: {
+            id: Number(categoryId)
+        }
+    })
+    if (!isCategoryExist) {
+        res.status(400).json({ message: "Category not found", success: false })
+        return
+    }
+    const isSupplierExist = await prisma.user.findUnique({
+        where: {
+            id: Number(supplierId)
+        }
+    })
+    if (!isSupplierExist) {
+        res.status(400).json({ message: "Supplier not found", success: false })
         return
     }
     const product = prisma.product.create({

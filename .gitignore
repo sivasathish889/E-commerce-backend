@@ -1,4 +1,6 @@
 node_modules
 dict
 public
-*.env
+.env
+src/prisma/migrations/
+migrations/

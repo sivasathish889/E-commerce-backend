@@ -6,25 +6,30 @@ import { addCategory, deleteCategory, getCategory, getCategoryById, updateCatego
 import { addRole, deleteRole, getRoles, updateRole } from "../controller/role.controller.js";
 import { addPermission, deletePermission, getPermissions, updatePermission } from "../controller/permission.controller.js";
 import { addRolToPermission, deleteRolToPermission, getRolToPermission } from "../controller/roleToPermission.js";
+import { getAllUsers, getUserById } from "../controller/user.controller.js";
 const routes = Router()
 
 // auth
 routes.post("/register", registerController)
 routes.get("/login", loginController)
 
+// Users
+routes.get("/users", getAllUsers)
+routes.get("/user/:id",getUserById)
+
 // product
 routes.post("/addProduct", ProductUpload, addProduct)
 routes.get("/products", getProducts)
-routes.get("/product:id", getProductById)
-routes.put("/product:id", ProductUpload, updateProduct)
-routes.delete("/product:id", deleteProduct)
+routes.get("/product/:id", getProductById)
+routes.put("/product/:id", ProductUpload, updateProduct)
+routes.delete("/product/:id", deleteProduct)
 
 // Category
 routes.post("/addCategory", CategoryUpload, addCategory)
 routes.get("/categories", getCategory)
-routes.get("/category:id", getCategoryById)
-routes.put("/category:id", CategoryUpload, updateCategory)
-routes.delete("/category:id", deleteCategory)
+routes.get("/category/:id", getCategoryById)
+routes.put("/category/:id", CategoryUpload, updateCategory)
+routes.delete("/category/:id", deleteCategory)
 
 // Role
 routes.post("/addRole", addRole)
