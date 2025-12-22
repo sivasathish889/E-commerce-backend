@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../prisma/index.js";
+import { prisma } from "../prisma/index.js";
 import asyncHandler from "express-async-handler";
-import type { ProductType } from "../../types/types.js";
+import type { ProductType } from "../types/types.js";
 
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     const { name, price, offer, description, categoryId, supplierId, } = req.body as ProductType

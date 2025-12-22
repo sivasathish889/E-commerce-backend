@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { loginController, registerController } from "../controller/admin/auth.Controller.js";
-import { addProduct, getProductById, getProducts, deleteProduct, updateProduct, } from "../controller/admin/product.Controller.js";
-import { CategoryUpload, ProductUpload } from "../middlewere/fileUpload.js";
-import { addCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from "../controller/admin/category.controller.js";
+import { loginController, registerController } from "../controller/auth.Controller.js";
+import { addProduct, getProductById, getProducts, deleteProduct, updateProduct, } from "../controller/product.Controller.js";
+import { CategoryUpload, ProductUpload } from "../middleware/fileUpload.js";
+import { addCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from "../controller/category.controller.js";
 const routes = Router()
 
 // auth

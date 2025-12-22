@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../prisma/index.js";
+import { prisma } from "../prisma/index.js";
 import asyncHandler from "express-async-handler";
-import { emailValidator, phoneValidator } from "../../config/regex.js";
-import { comparePass, hashPass } from "../../config/bcrypt.js"
+import { emailValidator, phoneValidator } from "../config/regex.js";
+import { comparePass, hashPass } from "../config/bcrypt.js"
 import jwt from "jsonwebtoken"
 export const registerController = asyncHandler(async (req: Request, res: Response) => {
     const { name, email, password, phone } = req.body

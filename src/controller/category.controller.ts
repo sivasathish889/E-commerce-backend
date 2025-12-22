@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../prisma/index.js";
+import { prisma } from "../prisma/index.js";
 import asyncHandler from "express-async-handler";
 
 export const addCategory = asyncHandler(async (req: Request, res: Response) => {
