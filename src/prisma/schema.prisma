@@ -25,6 +25,7 @@ enum PermissionAction {
   CREATE
   UPDATE
   DELETE
+  ALL
 }
 
 model User {
@@ -125,17 +126,23 @@ model Category {
 }
 
 model Role {
-  id         Int          @id @default(autoincrement())
-  name       String       @unique
-  user       User?        @relation()
-  permission Permission[]
+  id               Int               @id @default(autoincrement())
+  name             String            @unique
+  user             User?             @relation()
+  rollToPermission rolToPermission[]
 }
 
 model Permission {
-  id          Int              @id @default(autoincrement())
-  action      PermissionAction
-  resource    String
-  description String?
-  roleId      Int
-  role        Role             @relation(fields: [roleId], references: [id])
+  id               Int               @id @default(autoincrement())
+  action           PermissionAction  @default(READ)
+  description      String?
+  rollToPermission rolToPermission[]
+}
+
+model rolToPermission {
+  id           Int        @id @default(autoincrement())
+  roleId       Int
+  role         Role       @relation(fields: [roleId], references: [id])
+  permissionId Int
+  permission   Permission @relation(fields: [permissionId], references: [id])
 }

@@ -34,10 +34,10 @@ export const registerController = asyncHandler(async (req: Request, res: Respons
             name,
             email,
             password: hashPass(password),
-            phone: phone,
+            phone: String(phone),
             role: {
-                connect : {
-                    id : 1
+                connect: {
+                    id: 1
                 }
             }
         }

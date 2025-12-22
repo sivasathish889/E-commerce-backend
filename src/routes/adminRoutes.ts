@@ -3,7 +3,9 @@ import { loginController, registerController } from "../controller/auth.Controll
 import { addProduct, getProductById, getProducts, deleteProduct, updateProduct, } from "../controller/product.Controller.js";
 import { CategoryUpload, ProductUpload } from "../middleware/fileUpload.js";
 import { addCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from "../controller/category.controller.js";
-import { addRole } from "../controller/role.controller.js";
+import { addRole, deleteRole, getRoles, updateRole } from "../controller/role.controller.js";
+import { addPermission, deletePermission, getPermissions, updatePermission } from "../controller/permission.controller.js";
+import { addRolToPermission, deleteRolToPermission, getRolToPermission } from "../controller/roleToPermission.js";
 const routes = Router()
 
 // auth
@@ -26,8 +28,20 @@ routes.delete("/category:id", deleteCategory)
 
 // Role
 routes.post("/addRole", addRole)
+routes.get("/addRole", getRoles)
+routes.delete("/addRole:id", deleteRole)
+routes.put("updateRole:id", updateRole)
 
 
+// Permission
+routes.post("/addPermission", addPermission)
+routes.get("/addPermission", getPermissions)
+routes.delete("/addPermission:id", deletePermission)
+routes.put("updatePermission:id", updatePermission)
 
+// role to permission
+routes.post("/rolToPermission", addRolToPermission)
+routes.get("/rolToPermission", getRolToPermission)
+routes.delete("/rolToPermission:id", deleteRolToPermission)
 
 export default routes;
