@@ -1,13 +1,27 @@
 import { Router } from "express";
 import { loginController, registerController } from "../controller/admin/auth.Controller.js";
-import { addProduct, addCategory } from "../controller/admin/product.Controller.js";
+import { addProduct, getProductById, getProducts, deleteProduct, updateProduct, } from "../controller/admin/product.Controller.js";
 import { CategoryUpload, ProductUpload } from "../middlewere/fileUpload.js";
+import { addCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from "../controller/admin/category.controller.js";
 const routes = Router()
 
+// auth
 routes.post("/register", registerController)
 routes.get("/login", loginController)
+
+// product
 routes.post("/addProduct", ProductUpload, addProduct)
+routes.get("/products", getProducts)
+routes.get("/product:id", getProductById)
+routes.put("/product:id", ProductUpload, updateProduct)
+routes.delete("/product:id", deleteProduct)
+
+// Category
 routes.post("/addCategory", CategoryUpload, addCategory)
+routes.get("/categories", getCategory)
+routes.get("/category:id", getCategoryById)
+routes.put("/category:id", CategoryUpload, updateCategory)
+routes.delete("/category:id", deleteCategory)
 
 
 
