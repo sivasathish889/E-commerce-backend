@@ -14,6 +14,7 @@ export type ProductType = {
     name: string
     price: string
     offer: string
+    stock : number
     description: string
     categoryId: string
     supplierId: string

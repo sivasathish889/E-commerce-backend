@@ -100,34 +100,26 @@ export const getProductById = asyncHandler(async (req: Request, res: Response) =
 
 export const updateProduct = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params
-    const { name, price, offer, description, categoryId, supplierId } = req.body as ProductType
+    const { name, price, offer, stock, description, categoryId, supplierId } = req.body as ProductType
     const images = req.files as Express.Multer.File[]
-    const isNameExist = await prisma.product.findFirst({
-        where: {
-            name: name
-        }
-    })
-    if (isNameExist) {
-        res.status(400).json({ message: "Product name already exist", success: false })
-        return
-    }
     const product = await prisma.product.update({
         where: {
             id: Number(id)
         },
         data: {
-            name,
-            price: parseFloat(price),
-            offer: parseFloat(offer),
-            description,
-            categoryId: Number(categoryId),
-            supplierId: Number(supplierId),
-            images: {
-                create: images.map((item) => {
-                    return {
+            ...name && { name: name },
+            ...price && { price: parseFloat(price) },
+            ...offer && { offer: parseFloat(offer) },
+            ...description && { description },
+            ...stock && { stock: Number(stock) },
+            ...categoryId && { categoryId: Number(categoryId) },
+            ...supplierId && { supplierId: Number(supplierId) },
+            ...images && {
+                images: {
+                    create: images.map((item) => ({
                         url: item.path,
-                    }
-                })
+                    }))
+                }
             }
         },
         include: {

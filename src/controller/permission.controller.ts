@@ -29,13 +29,37 @@ export const addPermission = asyncHandler(async (req: Request, res: Response) =>
     res.status(200).json({ message: "Permission added successfully", success: true, data: permission })
 })
 
-export const getPermissions = asyncHandler(async (req: Request, res: Response) => {
+export const getAllPermissions = asyncHandler(async (req: Request, res: Response) => {
     const permissions = await prisma.permission.findMany()
     if (!permissions) {
         res.status(400).json({ message: "Something went wrong", success: false })
         return
     }
     res.status(200).json({ message: "Permissions fetched successfully", success: true, data: permissions })
+})
+
+export const getPermissionById = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params
+    if (!id) {
+        res.status(400).json({ message: "Please fill all the fields", success: false })
+        return
+    }
+    const isExist = await prisma.permission.findFirst({
+        where: {
+            id: Number(id)
+        }
+    })
+    if (!isExist) {
+        res.status(400).json({ message: "Permission does not exists", success: false })
+        return
+    }
+    const permission = await prisma.permission.findFirst({
+        where: {
+            id: Number(id)
+        }
+    })
+    res.status(200).json({ message: "Permission fetched successfully", success: true, data: permission })
+    return
 })
 
 export const deletePermission = asyncHandler(async (req: Request, res: Response) => {

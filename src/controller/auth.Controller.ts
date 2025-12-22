@@ -37,9 +37,9 @@ export const registerController = asyncHandler(async (req: Request, res: Respons
             phone: String(phone),
             role: {
                 connect: {
-                    id: 1
+                    id: 1,
                 }
-            }
+            },
         }
     })
     if (!newUser) {

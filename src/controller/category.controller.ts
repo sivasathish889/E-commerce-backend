@@ -9,6 +9,15 @@ export const addCategory = asyncHandler(async (req: Request, res: Response) => {
         res.status(400).json({ message: "Please fill all the fields", success: false })
         return
     }
+    const isCategoryExist = await prisma.category.findFirst({
+        where: {
+            name: name
+        }
+    })
+    if (isCategoryExist) {
+        res.status(400).json({ message: "Category already exists", success: false })
+        return
+    }
     const category = await prisma.category.create({
         data: {
             name,
@@ -45,8 +54,8 @@ export const updateCategory = asyncHandler(async (req: Request, res: Response) =
             id: Number(id)
         },
         data: {
-            name,
-            picture: image || ""
+            ...name && { name: name },
+            ...image && { picture: image }
         }
     })
     res.status(200).json({ message: "Category updated successfully", success: true, data: category })
