@@ -14,19 +14,28 @@ enum PaymentType {
   NET_BANKING
 }
 
-enum UserType {
-  ADMIN
-  CUSTOMER
-  SUPPLIER
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPEND
+}
+
+enum PermissionAction {
+  READ
+  CREATE
+  UPDATE
+  DELETE
 }
 
 model User {
   id        Int         @id @default(autoincrement())
   name      String
-  email     String     
-  phone     Int
+  email     String
+  phone     String
   password  String
-  role      UserType 
+  status    UserStatus  @default(ACTIVE)
+  roleId    Int         @unique
+  role      Role        @relation(fields: [roleId], references: [id])
   addresses Addresses[]
   order     Order[]
   payment   Payment[]
@@ -42,7 +51,7 @@ model Addresses {
   id        Int      @id @default(autoincrement())
   address   String?
   userId    Int
-  user      User     @relation(fields: [userId], references: [id],onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
 }
@@ -68,7 +77,7 @@ model ProductImages {
   id        Int     @id @default(autoincrement())
   url       String
   productId Int
-  product   Product @relation(fields: [productId], references: [id],onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Order {
@@ -98,10 +107,10 @@ model Payment {
 model Cart {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id],onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
-  products  Product  @relation(fields: [productId], references: [id],onDelete: Cascade)
+  products  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
 }
 
@@ -113,4 +122,20 @@ model Category {
   products    Product[]
   createdAt   DateTime  @default(now())
   updateAt    DateTime  @updatedAt
+}
+
+model Role {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  user       User?        @relation()
+  permission Permission[]
+}
+
+model Permission {
+  id          Int              @id @default(autoincrement())
+  action      PermissionAction
+  resource    String
+  description String?
+  roleId      Int
+  role        Role             @relation(fields: [roleId], references: [id])
 }

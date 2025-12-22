@@ -3,7 +3,9 @@ import { prisma } from "../prisma/index.js";
 import asyncHandler from "express-async-handler";
 import { emailValidator, phoneValidator } from "../config/regex.js";
 import { comparePass, hashPass } from "../config/bcrypt.js"
-import jwt from "jsonwebtoken"
+import { jwtSign } from "../config/jwt.js";
+
+
 export const registerController = asyncHandler(async (req: Request, res: Response) => {
     const { name, email, password, phone } = req.body
     if (!name || !email || !password || !phone) {
@@ -33,7 +35,11 @@ export const registerController = asyncHandler(async (req: Request, res: Respons
             email,
             password: hashPass(password),
             phone: phone,
-            role: "ADMIN"
+            role: {
+                connect : {
+                    id : 1
+                }
+            }
         }
     })
     if (!newUser) {
@@ -62,7 +68,7 @@ export const loginController = asyncHandler(async (req: Request, res: Response) 
         res.status(400).json({ message: "Invalid password", success: false })
         return
     }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string)
+    const token = jwtSign(user)
     res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none" })
     res.status(200).json({ message: "User logged in successfully", success: true, data: JSON.stringify(user) })
     return

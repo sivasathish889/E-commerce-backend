@@ -55,3 +55,10 @@
 12/20/2025 -- 22:1:15 --  POST -- /api/admin/addProduct  200 
 12/20/2025 -- 22:8:22 --  POST -- /api/admin/addProduct  200 
 12/20/2025 -- 22:8:31 --  POST -- /api/admin/addProduct  200 
+12/22/2025 -- 16:32:22 --  POST -- /api/admin/addRole  200 
+12/22/2025 -- 16:32:31 --  POST -- /api/admin/addRole  200 
+12/22/2025 -- 16:35:36 --  GET -- /api/admin/register  200 
+12/22/2025 -- 16:35:41 --  POST -- /api/admin/register  200 
+12/22/2025 -- 16:38:43 --  POST -- /api/admin/addRole  200 
+12/22/2025 -- 16:38:52 --  POST -- /api/admin/addRole  200 
+12/22/2025 -- 16:39:2 --  POST -- /api/admin/register  200 

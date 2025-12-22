@@ -3,6 +3,7 @@ import { loginController, registerController } from "../controller/auth.Controll
 import { addProduct, getProductById, getProducts, deleteProduct, updateProduct, } from "../controller/product.Controller.js";
 import { CategoryUpload, ProductUpload } from "../middleware/fileUpload.js";
 import { addCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from "../controller/category.controller.js";
+import { addRole } from "../controller/role.controller.js";
 const routes = Router()
 
 // auth
@@ -22,6 +23,9 @@ routes.get("/categories", getCategory)
 routes.get("/category:id", getCategoryById)
 routes.put("/category:id", CategoryUpload, updateCategory)
 routes.delete("/category:id", deleteCategory)
+
+// Role
+routes.post("/addRole", addRole)
 
 
 
