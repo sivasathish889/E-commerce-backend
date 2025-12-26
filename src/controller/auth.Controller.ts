@@ -7,7 +7,7 @@ import { jwtSign } from "../config/jwt.js";
 
 
 export const registerController = asyncHandler(async (req: Request, res: Response) => {
-    const { name, email, password, phone } = req.body
+    const { name, email, password, phone,role } = req.body 
     if (!name || !email || !password || !phone) {
         res.status(400).json({ message: "Please fill all the fields", success: false })
         return
@@ -29,16 +29,23 @@ export const registerController = asyncHandler(async (req: Request, res: Respons
         res.status(400).json({ message: "Invalid phone number", success: false })
         return
     }
+    const isExistRole = await prisma.role.findMany()
+    if(isExistRole.length  == 0){
+        res.status(400).json({ message: "Role not found", success: false })
+        return
+    }
     const newUser = await prisma.user.create({
         data: {
             name,
             email,
             password: hashPass(password),
             phone: String(phone),
-            role: {
-                connect: {
-                    id: 1,
-                }
+            role: role
+                ? {
+                    connect: { name: role }, 
+                    }
+                : {
+                    connect: { id: 1 },
             },
         }
     })
