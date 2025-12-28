@@ -6,12 +6,11 @@ import type { ProductType } from "../types/types.js";
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     const { name, price, offer, description, categoryId, supplierId, } = req.body as ProductType
     const images = req.files as Express.Multer.File[]
-
     if (!name || !price || !offer || !description || !categoryId || !supplierId) {
         res.status(400).json({ message: "Please fill all the fields", success: false })
         return
     }
-    if (images.length > 7) {
+    if (images.length < 7) {
         res.status(400).json({ message: "Please upload at least one image", success: false })
         return
     }

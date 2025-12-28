@@ -28,6 +28,14 @@ const ProductUpload = multer({
 
 const CategoryUpload = multer({
     storage: createDynamicStorage("categories")
+    // storage : multer.memoryStorage(),
+    // fileFilter: (req, file, cb) => {
+    //     if (file.mimetype.startsWith("image/")) {
+    //         cb(null, true)
+    //     } else {
+    //         cb(new Error("Only images are allowed"))
+    //     }
+    // }
 }).single("categoryImage")
 
 export { ProductUpload, CategoryUpload } 
