@@ -4,3 +4,4 @@ public
 .env
 src/prisma/migrations/
 migrations/
+log.txt
