@@ -47,7 +47,9 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
             price: parseFloat(price),
             offer: parseFloat(offer),
             description,
-            categoryId: Number(categoryId),
+            productToCategory: {
+                connect: { id: Number(categoryId) }
+            },
             supplierId: Number(supplierId),
             images: {
                 create: images.map((item) => {
@@ -58,7 +60,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
             }
         },
         include: {
-            category: true,
+            productToCategory: true,
             supplier: true,
             images: true,
         }
@@ -72,7 +74,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
 export const getProducts = asyncHandler(async (req: Request, res: Response) => {
     const products = await prisma.product.findMany({
         include: {
-            category: true,
+            productToCategory: true,
             supplier: true,
             images: true,
         }
@@ -88,7 +90,7 @@ export const getProductById = asyncHandler(async (req: Request, res: Response) =
             id: Number(id)
         },
         include: {
-            category: true,
+            productToCategory: true,
             supplier: true,
             images: true,
         }
@@ -111,7 +113,7 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
             ...offer && { offer: parseFloat(offer) },
             ...description && { description },
             ...stock && { stock: Number(stock) },
-            ...categoryId && { categoryId: Number(categoryId) },
+            ...categoryId && { productToCategory: { connect: { id: Number(categoryId) } } },
             ...supplierId && { supplierId: Number(supplierId) },
             ...images && {
                 images: {
@@ -122,7 +124,7 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
             }
         },
         include: {
-            category: true,
+            productToCategory: true,
             supplier: true,
             images: true,
         }

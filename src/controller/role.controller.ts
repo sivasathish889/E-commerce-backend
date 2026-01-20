@@ -28,7 +28,7 @@ export const addRole = asyncHandler(async (req: Request, res: Response) => {
 export const getRoles = asyncHandler(async (req: Request, res: Response) => {
     const roles = await prisma.role.findMany({
         include: {
-            user: true,
+            users: true,
             rollToPermission: true
         }
     })
@@ -50,7 +50,7 @@ export const getRoleById = asyncHandler(async (req: Request, res: Response) => {
             id: Number(id)
         },
         include: {
-            user: true,
+            users: true,
             rollToPermission: true
         }
     })
