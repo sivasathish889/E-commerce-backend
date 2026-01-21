@@ -10,7 +10,7 @@
     "dev": "nodemon --exec tsx server.ts",
     "build": "tsc && npm run build:copy",
     "build:copy": "copyfiles -u 1 \"src/prisma/schema.prisma\" \"dist/src\" && copyfiles \"server.js\" \"dist/\"",
-    "serve": "node server.js"
+    "serve": "node dist/server.js"
   },
   "prisma": {
     "schema": "./src/prisma/schema.prisma"

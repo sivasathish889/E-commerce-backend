@@ -65,7 +65,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
             images: true,
         }
     })
-    product.then((result) => {
+    product.then((result: any) => {
         res.status(200).json({ message: "Product added successfully", success: true, product: result })
         return
     })
