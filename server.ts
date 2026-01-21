@@ -22,6 +22,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(Logger)
 
+// for testing api
+app.get("/", (req, res) => {
+  res.send("E-commerce Backend is running");
+});
+
 // routes
 app.use("/api/admin",adminRoutes)
 
