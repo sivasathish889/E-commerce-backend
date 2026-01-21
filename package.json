@@ -8,8 +8,9 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "dev": "nodemon --exec tsx server.ts",
-    "build": "tsc",
-    "serve": "node /app/dist/server.js"
+    "build": "tsc && npm run build:copy",
+    "build:copy": "copyfiles -u 1 \"src/prisma/schema.prisma\" \"dist/src\" && copyfiles \"server.js\" \"dist/\"",
+    "serve": "node server.js"
   },
   "prisma": {
     "schema": "./src/prisma/schema.prisma"
@@ -38,6 +39,7 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^20.19.27",
     "@types/nodemailer": "^7.0.4",
+    "copyfiles": "^2.4.1",
     "prisma": "^5.7.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
