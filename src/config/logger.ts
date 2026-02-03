@@ -12,7 +12,6 @@ const Logger = (req: Request, res: Response, next: NextFunction) => {
         
         const logsDir = path.join(process.cwd(), "src", "logs")
         const logFilePath = path.join(logsDir, "log.txt")
-        console.log(logFilePath)
         if (!fs.existsSync(logsDir)) {
             fs.mkdirSync(logsDir, { recursive: true })
         }
