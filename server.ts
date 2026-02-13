@@ -27,6 +27,10 @@ app.get("/", (req, res) => {
   res.send("E-commerce Backend is running");
 });
 
+app.post("/api/test", (req, res) => {
+  console.log(req.body,req.file);
+  res.json({ message: "Data received successfully", data: req.body });
+})
 // routes
 app.use("/api/admin",adminRoutes)
 
