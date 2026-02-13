@@ -9,7 +9,6 @@ const Logger = (req: Request, res: Response, next: NextFunction) => {
         const time = date.toLocaleDateString() + " -- " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
         const log = `${time} --  ${req.method} -- ${req.originalUrl}  ${res.statusCode} `
         console.log(log)
-        
         const logsDir = path.join(process.cwd(), "src", "logs")
         const logFilePath = path.join(logsDir, "log.txt")
         if (!fs.existsSync(logsDir)) {
